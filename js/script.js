@@ -28,8 +28,10 @@ const imgsArray = [
 
 //componenti html
 const mainWrapper = document.querySelector('.main-wrapper');
+const invertBtn = document.getElementById('invert');
+const stopBtn = document.getElementById('stop');
+let clock;
 let counter = 0;
-
 
 
 
@@ -37,20 +39,47 @@ let counter = 0;
 carousel();
 
 function carousel(){
-  let content = mainWrapper.innerHTML ='';
-  content += `
-  <div class="col-12 p-0 img-wrapper h-100 w-100">
+
+  content = `
+    <div class="col-12 p-0 img-wrapper h-100 w-100">
         <div class="text-area">
-          <h3>${imgsArray[0].title}</h3>
-          <p>${imgsArray[0].description}</p>
+          <h3>${imgsArray[counter].title}</h3>
+          <p>${imgsArray[counter].description}</p>
         </div>
-        <img class="img-contain" src="img/${imgsArray[0].img}" alt="">
+        <img class="img-contain" src="img/${imgsArray[counter].img}" alt="">
        
       </div>
   `;
-
-  mainWrapper.innerHTML += content;
-
+  mainWrapper.innerHTML = content;
+  autoPlayForward();
+  
 }
 
-console.log(imgsArray);
+stopBtn.addEventListener('click', function(){
+})
+function autoPlayForward() {
+  clock = setInterval(function(){
+    let content = mainWrapper.innerHTML ='';
+    content = `
+    <div class="col-12 p-0 img-wrapper h-100 w-100">
+        <div class="text-area">
+          <h3>${imgsArray[counter].title}</h3>
+          <p>${imgsArray[counter].description}</p>
+        </div>
+        <img class="img-contain" src="img/${imgsArray[counter].img}" alt="">
+       
+      </div>
+  `;
+  mainWrapper.innerHTML = content;
+    counter++;
+    if(counter == imgsArray.length) counter = 0;
+  }, 1500)
+}
+function autoPlayBackward() {
+    clock = setInterval(function(){
+      console.log(counter);
+      counter--;
+      if(counter == 0 -1) counter = imgsArray.length;
+    }, 1000)
+}
+// autoPlayForward();
