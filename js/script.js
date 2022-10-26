@@ -28,6 +28,7 @@ const imgsArray = [
 
 //componenti html
 const mainWrapper = document.querySelector('.main-wrapper');
+const thumbnails = document.querySelector('.thumbnails');
 const invertBtn = document.getElementById('invert');
 const stopBtn = document.getElementById('stop');
 let clock;
@@ -38,10 +39,11 @@ let isClicked = false;
 
 
 carousel();
+thumbnail();
 
 function carousel(){
 
-  content = `
+  let content = `
     <div class="col-12 p-0 img-wrapper h-100 w-100">
         <div class="text-area">
           <h3>${imgsArray[counter].title}</h3>
@@ -52,14 +54,13 @@ function carousel(){
       </div>
   `;
   mainWrapper.innerHTML = content;
-  // if(!isClicked) 
-  // autoPlayForward();
   
   
   
+  stopBtn.addEventListener('click', function(){
+    isClicked = null;
+  })
   invertBtn.addEventListener('click', function(){
-    // isClicked = true;
-    // if(isClicked) autoPlayBackward();
     if(!isClicked){
       isClicked = true;
       autoPlayBackward();
@@ -75,18 +76,29 @@ function carousel(){
     }
   })
   
-  stopBtn.addEventListener('click', function(){
-    isClicked = null;
-  })
+  autoPlayForward();
 }
 
+function thumbnail() {
+  thumbnails.innerHTML = '';
+  imgsArray.forEach(function (img){
+    let content = `
+    <div class="col p-0 h-100 w-100">
+        <img class="img-contain img-thumbnails" src="img/${img.img}" alt="">
+      </div>
+    `;
+
+    thumbnails.innerHTML += content;
+  });
+}
 
 function autoPlayForward(clock) {
+  
   clock = setInterval(function(){
     if(isClicked){
       clearInterval(clock);
     }
-    let content = mainWrapper.innerHTML ='';
+    content = mainWrapper.innerHTML ='';
     counter++;
     if(counter == imgsArray.length) counter = 0;
     content = `
@@ -113,7 +125,7 @@ function autoPlayBackward(clock) {
     }
     counter--;
     if(counter == -1) counter = imgsArray.length -1;
-      let content = mainWrapper.innerHTML ='';
+      content = mainWrapper.innerHTML ='';
       content = `
       <div class="col-12 p-0 img-wrapper h-100 w-100">
       <div class="text-area">
