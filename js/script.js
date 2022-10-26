@@ -1,7 +1,7 @@
 const imgsArray = [
   {
     img: "argentina.jpg",
-    title: "Argentinta",
+    title: "Argentina",
     description: "Argentina, officially the Argentine Republic, is a country in the southern half of South America."
   },
   {
@@ -32,6 +32,7 @@ const invertBtn = document.getElementById('invert');
 const stopBtn = document.getElementById('stop');
 let clock;
 let counter = 0;
+let isClicked = true;
 
 
 
@@ -51,12 +52,21 @@ function carousel(){
       </div>
   `;
   mainWrapper.innerHTML = content;
-  autoPlayForward();
-  
+  // if(!isClicked) autoPlayForward();
+  if(isClicked) autoPlayBackward();
+
+
+
+  invertBtn.addEventListener('click', function(){
+    isClicked = true;
+    console.log(isClicked);
+  })
+
+  stopBtn.addEventListener('click', function(){
+  })
 }
 
-stopBtn.addEventListener('click', function(){
-})
+
 function autoPlayForward() {
   clock = setInterval(function(){
     let content = mainWrapper.innerHTML ='';
@@ -75,11 +85,24 @@ function autoPlayForward() {
     if(counter == imgsArray.length) counter = 0;
   }, 1500)
 }
+
 function autoPlayBackward() {
     clock = setInterval(function(){
-      console.log(counter);
       counter--;
-      if(counter == 0 -1) counter = imgsArray.length;
+      if(counter == -1) counter = imgsArray.length -1;
+      let content = mainWrapper.innerHTML ='';
+      content = `
+      <div class="col-12 p-0 img-wrapper h-100 w-100">
+          <div class="text-area">
+            <h3>${imgsArray[counter].title}</h3>
+            <p>${imgsArray[counter].description}</p>
+          </div>
+          <img class="img-contain" src="img/${imgsArray[counter].img}" alt="">
+         
+        </div>
+    `;
+    mainWrapper.innerHTML = content;
+      console.log(counter);
     }, 1000)
 }
 // autoPlayForward();
